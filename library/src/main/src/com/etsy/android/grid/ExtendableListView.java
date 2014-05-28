@@ -528,6 +528,7 @@ public abstract class ExtendableListView extends AbsListView {
 
             if (mAdapter == null) {
                 clearState();
+                invokeOnItemScrollListener();
                 return;
             }
 
@@ -551,6 +552,7 @@ public abstract class ExtendableListView extends AbsListView {
             // and calling it a day
             if (mItemCount == 0) {
                 clearState();
+                invokeOnItemScrollListener();
                 return;
             }
             else if (mItemCount != mAdapter.getCount()) {
@@ -613,6 +615,7 @@ public abstract class ExtendableListView extends AbsListView {
             mDataChanged = false;
             mNeedSync = false;
             mLayoutMode = LAYOUT_NORMAL;
+            invokeOnItemScrollListener();
         } finally {
             mBlockLayoutRequests = false;
         }
@@ -705,8 +708,11 @@ public abstract class ExtendableListView extends AbsListView {
                 break;
 
             case MotionEvent.ACTION_UP:
-            default:
                 handled = onTouchUp(event);
+                break;
+
+            default:
+                handled = false;
                 break;
         }
 
@@ -2593,9 +2599,10 @@ public abstract class ExtendableListView extends AbsListView {
         if (infos == null) return;
         for (FixedViewInfo info : infos) {
             final View child = info.view;
-            final LayoutParams p = (LayoutParams) child.getLayoutParams();
-            if (p != null) {
-                p.recycledHeaderFooter = false;
+            final ViewGroup.LayoutParams p = child.getLayoutParams();
+
+            if (p instanceof LayoutParams) {
+                ((LayoutParams) p).recycledHeaderFooter = false;
             }
         }
     }
@@ -2741,7 +2748,8 @@ public abstract class ExtendableListView extends AbsListView {
                 final View view = getChildAt(motionPosition); // a fix by @pboos
 
                 if (view != null) {
-                    performItemClick(view, motionPosition + mFirstPosition, adapter.getItemId(motionPosition));
+                    final int clickPosition = motionPosition + mFirstPosition;
+                    performItemClick(view, clickPosition, adapter.getItemId(clickPosition));
                 }
             }
         }
