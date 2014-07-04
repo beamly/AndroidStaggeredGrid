@@ -1,23 +1,20 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.12.+'
+    }
+}
 apply plugin: 'android-library'
 
 dependencies {
     compile 'com.android.support:support-v4:19.1.+'
 }
 
-version = VERSION_NAME
-group = GROUP
-
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion 19
+    buildToolsVersion "19"
 
-    defaultConfig {
-        minSdkVersion 10
-    }
-
-    lintOptions {
-        abortOnError false
-    }
 }
 
-apply from: 'https://raw.github.com/chrisbanes/gradle-mvn-push/master/gradle-mvn-push.gradle'
