@@ -1,7 +1,7 @@
 AndroidStaggeredGrid
 =====================
 
-An Android staggered grid view which supports multiple columns with rows of varying sizes.
+An Android staggered grid view which supports multiple columns with rows of varying sizes .
 
 The `StaggeredGridView` was developed due to requirements for the Etsy app not met by any existing Android libraries.
 Namely a stable implementation with the ability to have a different number of columns in landscape & portrait,
